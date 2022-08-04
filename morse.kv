@@ -1,0 +1,106 @@
+MainGUI:
+<MainGUI1>:
+    BoxLayout:
+        size: root.width, root.height
+        orientation: 'horizontal'
+        padding: '15dp'
+        spacing: '10dp'
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'INPUT'
+            TextInput:
+                id: tp1
+                font_size: 17
+                hint_text: 'Enter Your Text'
+                size_hint: 1, None
+                height: root.height * .70
+                foreground_color: (1, 1, 1, 1)
+                cursor_color: (1, 1, 1, 1)
+                background_color: (255/255, 255/255, 255/255, .3) # (27/255, 25/255, 26/255, 0.8)
+                on_text: root.main_func(self.text)
+        BoxLayout:
+            orientation: 'vertical'
+            ToggleButton:
+                id: tog_button
+                text: "Text To Morse Code"
+                on_state: root.toggle_button(self)
+            Button:
+                text: "Delete all"
+                on_press: root.delete_all()
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'OUTPUT'
+            TextInput:
+                id: tp2
+                font_size: tp1.font_size
+                hint_text: 'Morse Code Here'
+                size_hint: 1, None
+                height: root.height * .70
+                foreground_color: tp1.foreground_color
+                cursor_color: tp1.cursor_color
+                background_color: tp1.background_color
+                readonly: True
+                text: root.text_output_str
+
+
+<MainGUI>:
+    rows: 3
+    canvas:
+        Color:
+            rgba: (0, 0, 0, 0) # (255/225, 255/225, 255/225, 1)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        size_hint: 1, 0.125
+        ToggleButton:
+            id: tog_button
+            text: "Text to Morse code"
+            on_state: root.toggle_button(self)
+
+        Button:
+            text: "Delete all"
+            on_press: root.delete_all()
+
+    BoxLayout:
+        size_hint: 1, 0.25
+        Label:
+            id: label1
+            text: "Input"
+        Label:
+            text: "Output"
+
+    BoxLayout:
+        TextInput:
+            id: tp1
+            font_size: 17
+            foreground_color: (1, 1, 1, 1)
+            cursor_color: (1, 1, 1, 1)
+            background_color: (255/255, 255/255, 255/255, .3) # (27/255, 25/255, 26/255, 0.8)
+            on_text: root.main_func(self.text)
+
+        TextInput:
+            id: tp2
+            font_size: tp1.font_size
+            foreground_color: tp1.foreground_color
+            cursor_color: tp1.cursor_color
+            background_color: tp1.background_color
+            readonly: True
+            text: root.text_output_str
+
+
+<RoundedButton>:
+    background_color: (0,0,0,0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: root.changed_color # (48/225, 84/225, 150/225, 1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [58] # Control the roundness of the rounded rectangle
+    on_touch_down: root.change_color()
+    on_touch_up: root.init_color()
